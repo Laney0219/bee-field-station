@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#263b30"><title>蜜境研究站 · Bee Field Station</title><link rel="modulepreload" href="vendor/three.module.js"><link rel="stylesheet" href="style.css"></head>
+<body>
+<canvas id="world" aria-label="養蜂農場三維探索場景"></canvas>
+<header><a class="brand" href="#" aria-label="蜜境研究站"><span class="brand-icon">⬡</span><span>蜜境研究站<small>BEE FIELD STATION</small></span></a><div class="top-actions"><span id="progress">0 / 11 任務</span><button id="journalBtn" aria-label="研究手冊">研究手冊 <span>↗</span></button><button id="helpBtn">操作</button><button id="qualityBtn">畫質 自動</button><button id="soundBtn" aria-label="切換蜜蜂背景音">背景音 開</button></div></header>
+<div id="sceneLabel"><span class="eyebrow">FIELD RESEARCH / 01</span><h1>從一朵花，<br>讀懂一個世界。</h1><p>走進養蜂農場，發現蜜蜂與我們的連結。</p></div>
+<aside id="objective"><span class="eyebrow">目前任務</span><strong id="goal">前往第一關，展開探索</strong><p id="goalSub">靠近金色標記，閱讀線索並完成挑戰。</p><button id="nearestBtn">對準目前關卡方向 →</button></aside>
+<div id="guide" hidden><span id="guideArrow" aria-hidden="true">↑</span><div><strong id="guideTitle"></strong><small id="guideDistance"></small></div><span id="guideAction">自行步行，抵達後 Observe</span></div>
+<div id="crosshair" aria-hidden="true">+</div><button id="interact" hidden>閱讀觀察站</button>
+<div id="compass"><span>N</span><i></i><span id="locationLabel">農場入口</span></div>
+<div id="controlsHint">WASD 移動 · 拖曳畫面環視 · E 互動</div>
+<div id="joystick" aria-label="觸控方向盤"><div id="stick"></div></div><div id="touchHint">右側拖曳環視</div>
+<button id="mapBtn" aria-label="開啟農場地圖">⌖ <span>農場地圖</span></button>
+<div id="toast" role="status"></div>
+<div id="welcome" class="overlay"><section class="welcome-card"><div class="eyebrow">一場關於蜜蜂的閱讀探險</div><div class="welcome-bee">⬡</div><h2>歡迎來到<br><em>蜜境研究站</em></h2><p>研究站的出口等待你解鎖。走訪農場、閱讀雙語線索，完成 11 項任務，帶著蜜蜂知識安全離開。</p><div class="welcome-meta"><span>約 25–35 分鐘</span><span>第一人稱探索</span><span>中英雙語</span></div><div class="welcome-path"><span>01 探索</span><i>→</i><span>02 閱讀</span><i>→</i><span>03 挑戰</span></div><button class="primary" id="startBtn" disabled>場景準備中…</button><p class="fine" id="bootStatus" role="status">正在準備農場場景</p><p class="fine" id="deviceHelp">電腦：WASD 移動，按滑鼠左鍵開始前進，再按一次停止；拖曳環視。手機／iPad：使用左側方向盤移動，右側拖曳環視。抵達觀察站後按「Observe」閱讀任務；答對才解鎖下一關。</p><p class="fine" id="resumeNote"></p></section></div>
+<div id="panelOverlay" class="overlay" hidden><section class="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle"><div class="panel-top"><span id="panelTag" class="eyebrow"></span><button id="closePanel" aria-label="關閉面板">✕</button></div><div id="panelBody"></div></section></div>
+<div id="loadError" hidden>3D 場景載入失敗，請重新整理或改用支援 WebGL 的瀏覽器。</div>
+<script type="module" src="game.js"></script></body></html>
