@@ -44,7 +44,7 @@ function steppingStones(){
  const geometry=new THREE.ExtrudeGeometry(shape,{depth:.09,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.035,bevelThickness:.025});geometry.rotateX(-Math.PI/2);geometry.computeVertexNormals();
  const colors=['#aaa99d','#b9b7aa','#96978e','#c0bdb0','#a5a499'];
  const stoneMaterial=new THREE.MeshStandardMaterial({color:'#ffffff',roughness:.96});
- const count=104, stones=new THREE.InstancedMesh(geometry,stoneMaterial,count);stones.castShadow=true;stones.receiveShadow=true;
+ const count=128, stones=new THREE.InstancedMesh(geometry,stoneMaterial,count);stones.castShadow=true;stones.receiveShadow=true;
  const dummy=new THREE.Object3D();let i=0;
  const place=(x,z,scale=1)=>{dummy.position.set(x,.005+rand()*.012,z);dummy.rotation.set(0,(rand()-.5)*.2,0);dummy.scale.set(scale*(.82+rand()*.34),.82+rand()*.35,scale*(.86+rand()*.28));dummy.updateMatrix();stones.setMatrixAt(i,dummy.matrix);stones.setColorAt(i,new THREE.Color(colors[Math.floor(rand()*colors.length)]));i++};
  for(let z=20;z>=-21;z-=1.28)place((rand()-.5)*.22,z,1.05);
