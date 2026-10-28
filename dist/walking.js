@@ -7,4 +7,11 @@ export function advanceWalk(position,path,index,distance,blocked){
  }
  return {position:p,index,arrived:index>=path.length,blocked:false};
 }
-export function turnTowards(current,target,dt){const difference=Math.atan2(Math.sin(target-current),Math.cos(target-current));return current+difference*(1-Math.exp(-dt*7));}
+// Convert local input (right, forward) into the world plane for the current view.
+// The camera faces local -Z, so forward must move toward negative Z at yaw 0.
+export function cameraRelativeMotion(right,forward,yaw){
+ const c=Math.cos(yaw),s=Math.sin(yaw);
+ return [right*c-forward*s,-right*s-forward*c];
+}
+export function normalizeYaw(yaw){return Math.atan2(Math.sin(yaw),Math.cos(yaw));}
+export function turnTowards(current,target,dt){const difference=Math.atan2(Math.sin(target-current),Math.cos(target-current));return normalizeYaw(current+difference*(1-Math.exp(-dt*7)));}
