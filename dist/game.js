@@ -38,22 +38,7 @@ const nature=natureKit(scene,renderer,rand);
 const groundMaterial=new THREE.MeshStandardMaterial({map:nature.ground,roughness:1});
 box(0,-.17,0,250,.3,250,groundMaterial);
 new THREE.TextureLoader().load('./assets/grass-tile.jpg',grassTexture=>{grassTexture.wrapS=grassTexture.wrapT=THREE.RepeatWrapping;grassTexture.repeat.set(165,165);grassTexture.colorSpace=THREE.SRGBColorSpace;grassTexture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());groundMaterial.map=grassTexture;groundMaterial.needsUpdate=true;rendered=false});
-// Beveled, individually varied pavers sit just above the grass like the reference garden path.
-function steppingStones(){
- const shape=new THREE.Shape();shape.moveTo(-.50,-.37);shape.lineTo(.34,-.40);shape.lineTo(.48,-.25);shape.lineTo(.45,.30);shape.lineTo(.28,.39);shape.lineTo(-.43,.35);shape.lineTo(-.50,.18);shape.closePath();
- const geometry=new THREE.ExtrudeGeometry(shape,{depth:.09,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.035,bevelThickness:.025});geometry.rotateX(-Math.PI/2);geometry.computeVertexNormals();
- const colors=['#aaa99d','#b9b7aa','#96978e','#c0bdb0','#a5a499'];
- const stoneMaterial=new THREE.MeshStandardMaterial({color:'#ffffff',roughness:.96});
- const count=128, stones=new THREE.InstancedMesh(geometry,stoneMaterial,count);stones.castShadow=true;stones.receiveShadow=true;
- const dummy=new THREE.Object3D();let i=0;
- const place=(x,z,scale=1)=>{dummy.position.set(x,.005+rand()*.012,z);dummy.rotation.set(0,(rand()-.5)*.2,0);dummy.scale.set(scale*(.82+rand()*.34),.82+rand()*.35,scale*(.86+rand()*.28));dummy.updateMatrix();stones.setMatrixAt(i,dummy.matrix);stones.setColorAt(i,new THREE.Color(colors[Math.floor(rand()*colors.length)]));i++};
- for(let z=20;z>=-21;z-=1.28)place((rand()-.5)*.22,z,1.05);
- for(let x=-18;x<=18;x+=1.26)place(x,(rand()-.5)*.2,1);
- for(let x=-12;x<=12;x+=1.28)place(x,-11+(rand()-.5)*.18,1);
- for(let z=-17;z<=9;z+=1.3){place(-12+(rand()-.5)*.18,z,.94);place(12+(rand()-.5)*.18,z,.94)}
- stones.count=i;scene.add(stones);
-}
-steppingStones();
+function steppingStones(){const s=new THREE.Shape();s.moveTo(-.5,-.5);s.lineTo(.5,-.5);s.lineTo(.5,.5);s.lineTo(-.5,.5);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:.14,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.025,bevelThickness:.018});g.rotateX(-Math.PI/2);g.computeVertexNormals();const paths=[[[0,18],[0,-21]],[[-19,0],[19,0]],[[-19,-11],[19,-11]],[[-12,8],[-12,-20]],[[12,8],[12,-20]]],p=[],step=1.02,rowGap=.86;paths.forEach(([[ax,az],[bx,bz]],k)=>{const dx=bx-ax,dz=bz-az,len=Math.hypot(dx,dz),ux=dx/len,uz=dz/len,px=-uz,pz=ux,n=Math.ceil(len/step);for(let r=0;r<3;r++)for(let i=0;i<=n;i++){const d=i*step+(r%2)*step*.5;if(d>len+.15)continue;const t=d/len,side=(r-1)*rowGap,bend=Math.sin(t*len*.42+k*1.8)*.07;p.push([ax+dx*t+px*(side+bend),-.015,az+dz*t+pz*(side+bend),.94+rand()*.1,.94+rand()*.1,1+rand()*.07,Math.atan2(ux,uz)+(rand()-.5)*.018])}});const colors=['#777872','#86857e','#98968d','#aaa496','#c2b49d','#b5a48a'],m=new THREE.MeshStandardMaterial({color:'#fff',roughness:.95}),stones=new THREE.InstancedMesh(g,m,p.length),o=new THREE.Object3D();p.forEach(([x,y,z,sx,sy,sz,a],i)=>{o.position.set(x,y,z);o.rotation.set(0,a,0);o.scale.set(sx,sy,sz);o.updateMatrix();stones.setMatrixAt(i,o.matrix);stones.setColorAt(i,new THREE.Color(colors[Math.floor(rand()*colors.length)]))});stones.instanceMatrix.needsUpdate=true;stones.castShadow=true;stones.receiveShadow=true;scene.add(stones)}steppingStones();
 for(let i=0;i<650;i++){const x=rand()*90-45,z=rand()*90-45;if(Math.abs(x)<20&&z>-20&&z<25)continue;const g=mesh(new THREE.ConeGeometry(.07,.25+rand()*.25,3),'#738756',x,.1,z);g.rotation.z=(rand()-.5)*.3}
 for(let i=0;i<14;i++){const x=(i%2?-1:1)*(26+rand()*13),z=-24+rand()*50;nature.tree(x,z,4.7+rand()*2.6)}
 for(const [x,z,h] of [[20,9,5.8],[20,-4,6.6],[-20,10,6.1],[-20,-18,5.4]])nature.tree(x,z,h);
